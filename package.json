@@ -1,0 +1,29 @@
+{
+  "name": "MyBlog",
+  "version": "1.0.0",
+  "description": "1.展示页\r \t\t-展示所有的文章、文章作者、发布时间\r \t\t-注册和登陆\r \t\t-搜索\r \t\t-登陆后发布文章\r \t\t-点击文章后进入详情页\r \t\t-点击作者进入作者空间\r 2.文章详情页\r \t\t-刚才点击的文章\r \t\t-文章内容、标题、发布时间、作者\r 3.作者详情页\r \t\t-作者的空间\r \t\t-作者的信息",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanfeng12/MyBlog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanfeng12/MyBlog/issues"
+  },
+  "homepage": "https://github.com/yanfeng12/MyBlog#readme",
+  "devDependencies": {
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.3.8",
+    "multer": "^1.4.1"
+  }
+}
