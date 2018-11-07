@@ -7,7 +7,7 @@
 		<title>焉逢12的博客</title>
 		<!-- Bootstrap -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
 	</head>
 	<body>
 		<div class="container outside">
@@ -83,14 +83,13 @@
 							</div>
 							<div class="form-group">
 								<label>头像:</label>
-								<input type="file" name="" id="img" value="" />
+								<input type="file" name="" id="filesNode" value=""/>
 							</div>
 							<div class="form-group">
 								<label>QQ:</label>
-								<input type="text" id="QQ" value="" placeholder="用户名" class="form-control" />
+								<input type="text" id="QQ" value="" placeholder="QQ" class="form-control" />
 							</div>
 							<input type="button" id="signup" value="注册" class="btn btn-default btn-info" />
-							<!-- 				<input type="button" id="signup" value="注册" class="btn btn-default btn-primary"/> -->
 						</form>
 					</div>
 				</div><!-- /.modal-content -->
@@ -105,19 +104,31 @@
 				$('#signup').on({
 					'click':function  () {
 						for (var i=0;i<$('.resForm .form-group').length;i++) {
-							if ($('.resForm .form-group').eq(i).find('input').val() == '') {
+							if ($('.resForm .form-group').eq(i).find('input').val() == '') 
+							{
 								$('.resForm .form-group').eq(i).addClass('has-error')
+								console.log("内容不能为空")
+								return false
 							}
-							else{
+							else
+							{
 								$('.resForm .form-group').eq(i).removeClass('has-error')
-								var formNode = new FormData()
-								formNode.append('username',$('#name').val())
-								formNode.append('password',$('#pwd').val())
-								formNode.append('sex',$('input:radio:checked').val())
-								formNode.append('img',filesNode.files[0])
-								formNode.append('sex',$('input:radio:checked').val())
-								formNode.append('qq',$('#QQ').val())
+								console.log("正常")
 							}
+							
+						}
+						var formNode = new FormData()
+						formNode.append('username',$('#name').val())
+						formNode.append('password',$('#pwd').val())
+						formNode.append('img',filesNode.files[0])
+						formNode.append('sex',$('input:radio:checked').val())
+						formNode.append('qq',$('#QQ').val())
+						
+						var xhr = new XMLHttpRequest()
+						xhr.open('post','http://localhost:4000/res/resModule',true)
+						xhr.send(formNode)
+						xhr.onload = ()=>{
+							console.log(xhr.responseText)
 						}
 					}
 				})
