@@ -261,4 +261,22 @@ index.html中，不需要添加public
 ```
 <link rel="stylesheet" type="text/css" href="css/index.css"/>
 ```
+# 七.mysql
+1. 解决插入mysql反斜杠消失
+```
+JavaScript:
 
+stringObj.replace(rgExp, replaceText) 其中stringObj是字符串(string)，reExp可以是正则表达式对象(RegExp)也可以是字符串(string)，replaceText是替代查找到的字符串。
+
+1. javascript 把字符串中的反斜杠（\）替换成双斜杠（\\）
+
+replace(/\\/g,"\\\\");
+
+2.javascript 把字符串中的反斜杠（\）替换成斜杠（/）
+
+replace(/\\/g,"\/");
+
+3.javascript 把字符串中的斜杠（/）替换成反斜杠（\）
+
+replace(/\//g,"\\");
+```

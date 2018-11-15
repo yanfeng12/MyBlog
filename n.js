@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -27,7 +29,11 @@ app.use('/res', indexRouter);
 //注册
 indexRouter.use('/resModule',(req,res)=>{
 	//console.log(req.files[0],req.body);
-	var newName =req.files[0].path + path.parse(req.files[0].originalname).ext;
+	var oldName =req.files[0].path + path.parse(req.files[0].originalname).ext;
+	// var reg = new RegExp( '\\\\' , "g" );
+	// var newName = oldName.replace(reg, "\\\\\\\\"); 
+	var newName = oldName.replace(/\\/g,"\\\\")
+	console.log(newName);
 	fs.rename(req.files[0].path,newName,(err)=>{
 		if(err){
 			console.log(err);
@@ -43,7 +49,7 @@ indexRouter.use('/resModule',(req,res)=>{
 				if(err){
 					res.send({ok:0,msg:'数据连接失败'});
 					console.log(err);
-					c.();
+					c.release();
 				}
 				else{
 					var nowTime = new Date().toLocaleDateString() + ' ' +new Date().toLocaleTimeString();
@@ -97,6 +103,7 @@ indexRouter.use('/login',(req,res)=>{
 	Pool.getConnection((err,c)=>{
 		if(err){
 			res.send({ok:0,msg:'数据连接失败'});
+			console.log(err);
 			c.release();
 		}
 		else{
@@ -125,6 +132,51 @@ indexRouter.use('/login',(req,res)=>{
 		}
 	})
 
+});
+
+//发布文章
+indexRouter.use('/postedNews',(req,res)=>{
+	var Pool = mysql.createPool({
+		'host': 'localhost',
+		'user': 'root',
+		'password': 'X1s4j7f2y5zs',
+		'database': 'blog'
+	});
+	Pool.getConnection((err,c)=>{
+		if(err){
+			res.send({ok:0,msg:'数据连接失败'});
+			console.log(err);
+			c.release();
+		}
+		else{
+			var nowTime = new Date().toLocaleDateString() + ' ' +new Date().toLocaleTimeString();
+			var {username,newsName,inner} = req.query;
+			c.query('INSERT INTO `news` (`name`,`timer`,`newsName`,`inner`,`download`) VALUES("'+username+'","'+nowTime+'","'+newsName+'","'+inner+'","0");',(err)=>{
+				if(err){
+					res.send({ok:0,msg:'数据连接失败1'});
+					console.log(err);
+					c.release();
+				}
+				else{
+					c.query('SELECT name,newsName,timer FROM `news` WHERE name="'+username+'" AND newsName ="'+newsName+'" AND timer="'+nowTime+'";',(err,data)=>{
+						if(err){
+							res.send({ok:0,msg:'数据连接失败2'});
+							console.log(err);
+						}
+						else{
+							res.send({ok:1,msg:data});
+						};
+						c.release();
+					})
+					//
+					//res.send({ok:1,msg:'发布成功'});
+				}
+				
+			});
+
+		}
+
+	});
 });
 
 
